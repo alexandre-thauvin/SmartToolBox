@@ -1,4 +1,4 @@
-package com.youtubevideoconverter.smarttoolbox;
+package alexandre.thauvin.smarttoolbox;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

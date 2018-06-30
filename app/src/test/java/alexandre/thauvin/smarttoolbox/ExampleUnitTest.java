@@ -1,4 +1,4 @@
-package com.youtubevideoconverter.smarttoolbox;
+package alexandre.thauvin.smarttoolbox;
 
 import org.junit.Test;
 
