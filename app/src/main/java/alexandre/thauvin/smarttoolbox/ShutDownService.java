@@ -11,10 +11,14 @@ import android.os.Message;
 import android.os.Process;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ShutDownService extends Service {
 
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
+    private long time;
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
@@ -25,15 +29,16 @@ public class ShutDownService extends Service {
         public void handleMessage(Message msg) {
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
-            try {
-                Thread.sleep(5000);
+            int time = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+            while (time <= 15+17)
+            {
+                time = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+            }
+
                 BluetoothAdapter bluetoothAdapter;
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                 bluetoothAdapter.disable();
-            } catch (InterruptedException e) {
-                // Restore interrupt status.
-                Thread.currentThread().interrupt();
-            }
+
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
             stopSelf(msg.arg1);
@@ -78,6 +83,10 @@ public class ShutDownService extends Service {
     @Override
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+    }
+
+    public long getTime() {
+        return time;
     }
 }
 
