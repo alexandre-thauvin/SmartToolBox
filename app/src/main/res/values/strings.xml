@@ -8,6 +8,8 @@
         <!-- Name of displayed Services -->
         <string name="bluetooth">Bluetooth</string>
 
+        <string name="done">DONE</string>
+
 
 
 

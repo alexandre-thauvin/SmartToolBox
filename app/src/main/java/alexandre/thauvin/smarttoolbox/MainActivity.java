@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }*/
 
+   public void checkActions(View view)
+   {
+
+   }
+
     public void setRes(int res) {
         this.res = res;
     }
