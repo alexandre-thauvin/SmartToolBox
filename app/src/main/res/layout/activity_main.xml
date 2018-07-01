@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#2E63DE"
+    android:orientation="vertical"
+
     tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CheckBox
+            android:id="@+id/checkbox_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="87dp"
+            android:text="@string/bluetooth" />
+
+        <Spinner
+            android:id="@+id/spinner_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/checkbox_bluetooth"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="94dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/checkbox_bluetooth"
+            android:layout_marginEnd="34dp"
+            android:src="@drawable/baseline_bluetooth_black_18dp" />
+
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,4 +61,4 @@
         android:text="click"
         android:onClick="showTimePickerDialog" />-->
 
-</RelativeLayout>
+</LinearLayout>

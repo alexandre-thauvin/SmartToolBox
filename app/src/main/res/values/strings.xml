@@ -2,4 +2,22 @@
     <string name="app_name">Smart ToolBox</string>
     <string name="welcome">Welcome to your Toolbox !</string>
 
+    <!-- MainActivity -->
+    <string name="dashboard">DashBoard</string>
+
+        <!-- Name of displayed Services -->
+        <string name="bluetooth">Bluetooth</string>
+
+
+
+
+    <string-array name="basic_action">
+        <item>enable</item>
+        <item>disable</item>
+    </string-array>
+
+
+
+
+
 </resources>
