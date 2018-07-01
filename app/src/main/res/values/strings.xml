@@ -9,6 +9,10 @@
         <string name="bluetooth">Bluetooth</string>
 
         <string name="done">DONE</string>
+        <string name="service">Service</string>
+        <string name="action">Action</string>
+        <string name="date">Date</string>
+        <string name="hour">Hour</string>
 
 
 

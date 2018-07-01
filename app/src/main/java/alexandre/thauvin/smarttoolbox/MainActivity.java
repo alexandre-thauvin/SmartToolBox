@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-   /* public static class TimePickerFragment extends DialogFragment
+    public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
         @Override
@@ -52,15 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            Intent intent = new Intent(this, ShutDownService.class);
-            startService(intent);
-        }
-    }*/
 
-   /* public void showTimePickerDialog(View v) {
+        }
+    }
+
+    public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
-    }*/
+    }
 
    public void checkActions(View view)
    {
