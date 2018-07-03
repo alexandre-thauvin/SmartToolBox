@@ -18,6 +18,7 @@ public class ShutDownService extends Service {
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
     private int time = 0;
+    private String mode;
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
@@ -36,7 +37,10 @@ public class ShutDownService extends Service {
 
                 BluetoothAdapter bluetoothAdapter;
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                bluetoothAdapter.disable();
+                if (!mode.equals("enable"))
+                    bluetoothAdapter.disable();
+                else
+                    bluetoothAdapter.enable();
 
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
@@ -64,9 +68,10 @@ public class ShutDownService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         Bundle b = intent.getExtras();
-        if(b != null)
+        if(b != null) {
             time = b.getInt("time");
-
+            mode = b.getString("mode");
+        }
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         Message msg = mServiceHandler.obtainMessage();

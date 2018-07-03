@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -15,11 +17,19 @@ public class MainActivity extends AppCompatActivity {
 
     private int res = 0;
     private TimePicker tp;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        spinner = findViewById(R.id.spinner_bluetooth);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.basic_action, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
 
         tp = findViewById(R.id.timePicker);
@@ -42,28 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-
-   /* public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-
-        }
-    }*/
-
     public void showTimePickerDialog(View v) {
         if (tp.getVisibility() == View.GONE)
          tp.setVisibility(View.VISIBLE);
@@ -76,10 +64,12 @@ public class MainActivity extends AppCompatActivity {
    {
        CheckBox cb = findViewById(R.id.checkbox_bluetooth);
 
+
        if (cb.isChecked()) {
            Intent intent = new Intent(this, ShutDownService.class);
            Bundle b = new Bundle();
            b.putInt("time", res); //Your id
+           b.putString("mode",    spinner.getSelectedItem().toString());
            intent.putExtras(b); //Put your id to your next Intent
            startService(intent);
        }
