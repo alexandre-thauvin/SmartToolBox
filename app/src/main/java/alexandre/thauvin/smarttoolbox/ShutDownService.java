@@ -2,7 +2,6 @@ package alexandre.thauvin.smarttoolbox;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,11 +20,6 @@ public class ShutDownService extends Service {
     private int time = 0;
     private String mode;
 
-    public ShutDownService(Context applicationContext) {
-        super();
-    }
-
-    public ShutDownService(){}
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
@@ -46,10 +40,10 @@ public class ShutDownService extends Service {
 
                 BluetoothAdapter bluetoothAdapter;
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-              // if (!mode.equals("enable"))
+               if (!mode.equals("enable"))
                     bluetoothAdapter.disable();
-               // else
-                   // bluetoothAdapter.enable();
+                else
+                    bluetoothAdapter.enable();
 
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
@@ -98,15 +92,6 @@ public class ShutDownService extends Service {
         return null;
     }
 
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent){
-        Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
-        restartServiceTask.setPackage(getPackageName());
-
-        super.onTaskRemoved(rootIntent);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -115,9 +100,6 @@ public class ShutDownService extends Service {
         sendBroadcast(broadcastIntent);
     }
 
-    public long getTime() {
-        return time;
-    }
 }
 
 

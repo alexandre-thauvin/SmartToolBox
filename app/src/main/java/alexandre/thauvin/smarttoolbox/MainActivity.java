@@ -1,8 +1,7 @@
 package alexandre.thauvin.smarttoolbox;
 
 
-import android.app.ActivityManager;
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,20 +20,12 @@ public class MainActivity extends AppCompatActivity {
     private TimePicker tp;
     private Spinner spinner;
     private  Intent serviceIntent;
-    private ShutDownService shutDownService;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        shutDownService= new ShutDownService(this);
-        serviceIntent = new Intent(this, shutDownService.getClass());
-
-        if (!isMyServiceRunning(shutDownService.getClass())) {
-            startService(serviceIntent);
-        }
 
         spinner = findViewById(R.id.spinner_bluetooth);
 
@@ -48,16 +39,6 @@ public class MainActivity extends AppCompatActivity {
         tp.setOnTimeChangedListener(timeChangedListener);
         tp.setVisibility(View.GONE);
         tp.setIs24HourView(true);
-    }
-
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private TimePicker.OnTimeChangedListener timeChangedListener =
