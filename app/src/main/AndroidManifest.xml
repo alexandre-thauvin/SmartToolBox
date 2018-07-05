@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/toolbox"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/toolbox"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
