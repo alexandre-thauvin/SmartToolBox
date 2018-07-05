@@ -18,10 +18,10 @@
             android:enabled="true"/>
 
         <activity android:name=".MainActivity"
-            android:label="@string/dashboard">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                    android:label="@string/dashboard"
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="alexandre.thauvin.smarttoolbox.action.REQUEST_ENABLE" />
