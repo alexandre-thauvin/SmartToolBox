@@ -2,6 +2,7 @@ package alexandre.thauvin.smarttoolbox;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,12 @@ public class ShutDownService extends Service {
     private int time = 0;
     private String mode;
 
+    public ShutDownService(Context applicationContext) {
+        super();
+    }
+
+    public ShutDownService(){}
+
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -30,17 +37,19 @@ public class ShutDownService extends Service {
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
             int currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+            time = 21+28;
             while (currentTime != time)
             {
                 currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+
             }
 
                 BluetoothAdapter bluetoothAdapter;
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (!mode.equals("enable"))
+              // if (!mode.equals("enable"))
                     bluetoothAdapter.disable();
-                else
-                    bluetoothAdapter.enable();
+               // else
+                   // bluetoothAdapter.enable();
 
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
@@ -66,6 +75,7 @@ public class ShutDownService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         Bundle b = intent.getExtras();
         if(b != null) {
@@ -88,9 +98,21 @@ public class ShutDownService extends Service {
         return null;
     }
 
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
+        restartServiceTask.setPackage(getPackageName());
+
+        super.onTaskRemoved(rootIntent);
+    }
+
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        Intent broadcastIntent = new Intent(".RestartShutDownService");
+        sendBroadcast(broadcastIntent);
     }
 
     public long getTime() {

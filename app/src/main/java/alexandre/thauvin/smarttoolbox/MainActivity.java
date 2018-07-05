@@ -1,6 +1,8 @@
 package alexandre.thauvin.smarttoolbox;
 
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,12 +19,22 @@ public class MainActivity extends AppCompatActivity {
 
     private int res = 0;
     private TimePicker tp;
-    Spinner spinner;
+    private Spinner spinner;
+    private  Intent serviceIntent;
+    private ShutDownService shutDownService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        shutDownService= new ShutDownService(this);
+        serviceIntent = new Intent(this, shutDownService.getClass());
+
+        if (!isMyServiceRunning(shutDownService.getClass())) {
+            startService(serviceIntent);
+        }
 
         spinner = findViewById(R.id.spinner_bluetooth);
 
@@ -36,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
         tp.setOnTimeChangedListener(timeChangedListener);
         tp.setVisibility(View.GONE);
         tp.setIs24HourView(true);
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private TimePicker.OnTimeChangedListener timeChangedListener =
@@ -66,13 +88,20 @@ public class MainActivity extends AppCompatActivity {
 
 
        if (cb.isChecked()) {
-           Intent intent = new Intent(this, ShutDownService.class);
+           serviceIntent = new Intent(this, ShutDownService.class);
            Bundle b = new Bundle();
            b.putInt("time", res); //Your id
            b.putString("mode",    spinner.getSelectedItem().toString());
-           intent.putExtras(b); //Put your id to your next Intent
-           startService(intent);
+           serviceIntent.putExtras(b); //Put your id to your next Intent
+           startService(serviceIntent);
        }
 
    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(serviceIntent);
+        super.onDestroy();
+
+    }
 }
