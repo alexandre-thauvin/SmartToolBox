@@ -65,7 +65,7 @@
         <Spinner
             android:layout_marginTop="10dp"
             android:layout_marginStart="60dp"
-            android:id="@+id/spinner_bluetooth"
+            android:id="@+id/spinner_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              />
