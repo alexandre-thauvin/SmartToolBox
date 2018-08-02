@@ -18,7 +18,7 @@
             android:id="@+id/colomn_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="55dp"
             android:text="@string/service"
             android:textSize="25sp" />
 
@@ -31,7 +31,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="80dp"
             android:id="@+id/colomn_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,23 +47,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/img_bluetooth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:src="@drawable/baseline_bluetooth_black_18dp" />
-
         <Spinner
+            android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="60dp"
             android:id="@+id/spinner_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Spinner
             android:layout_marginTop="10dp"
-            android:layout_marginStart="60dp"
             android:id="@+id/spinner_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

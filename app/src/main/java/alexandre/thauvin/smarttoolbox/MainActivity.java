@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 R.array.basic_action, android.R.layout.simple_spinner_item);
         actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAction.setAdapter(actionAdapter);
-
 
         ArrayAdapter<CharSequence> serviceAdapter = ArrayAdapter.createFromResource(this,
                 R.array.basic_service, android.R.layout.simple_spinner_item);
