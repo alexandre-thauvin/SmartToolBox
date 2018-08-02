@@ -1,13 +1,11 @@
 package alexandre.thauvin.smarttoolbox;
 
 
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -15,11 +13,11 @@ import android.widget.TimePicker;
 public class MainActivity extends AppCompatActivity {
 
 
-
     private int res = 0;
     private TimePicker tp;
-    private Spinner spinner;
-    private  Intent serviceIntent;
+    private Spinner spinnerService;
+    private Spinner spinnerAction;
+    private Intent serviceIntent;
 
 
     @Override
@@ -27,12 +25,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinner = findViewById(R.id.spinner_bluetooth);
+        spinnerAction = findViewById(R.id.spinner_action);
+        spinnerService = findViewById(R.id.spinner_service);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> actionAdapter = ArrayAdapter.createFromResource(this,
                 R.array.basic_action, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAction.setAdapter(actionAdapter);
+
+
+        ArrayAdapter<CharSequence> serviceAdapter = ArrayAdapter.createFromResource(this,
+                R.array.basic_service, android.R.layout.simple_spinner_item);
+        serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerService.setAdapter(serviceAdapter);
 
 
         tp = findViewById(R.id.timePicker);
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private TimePicker.OnTimeChangedListener timeChangedListener =
-            new TimePicker.OnTimeChangedListener(){
+            new TimePicker.OnTimeChangedListener() {
                 @Override
                 public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                     TextView textView = findViewById(R.id.hour_bluetooth);
@@ -57,27 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void showTimePickerDialog(View v) {
         if (tp.getVisibility() == View.GONE)
-         tp.setVisibility(View.VISIBLE);
+            tp.setVisibility(View.VISIBLE);
         else
             tp.setVisibility(View.GONE);
 
     }
 
-   public void checkActions(View view)
-   {
-       CheckBox cb = findViewById(R.id.checkbox_bluetooth);
+    public void checkActions(View view) {
+        serviceIntent = new Intent(this, TimeChecker.class);
+        serviceIntent.putExtra("time", res);
+        serviceIntent.putExtra("service", spinnerService.getSelectedItem().toString());
+        serviceIntent.putExtra("action", spinnerAction.getSelectedItem().toString());
+        startService(serviceIntent);
 
-
-       if (cb.isChecked()) {
-           serviceIntent = new Intent(this, ShutDownService.class);
-           Bundle b = new Bundle();
-           b.putInt("time", res); //Your id
-           b.putString("mode",    spinner.getSelectedItem().toString());
-           serviceIntent.putExtras(b); //Put your id to your next Intent
-           startService(serviceIntent);
-       }
-
-   }
+    }
 
     @Override
     protected void onDestroy() {
