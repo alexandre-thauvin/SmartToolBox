@@ -1,6 +1,8 @@
 package alexandre.thauvin.smarttoolbox;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -15,23 +17,25 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import java.sql.Time;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private int res = 0;
-    private TimePicker tp;
     private Spinner spinnerService;
     private Spinner spinnerAction;
-    private Intent serviceIntent;
+    private int hours;
+    private int minutes;
+    private TimePicker tp;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         spinnerAction = findViewById(R.id.spinner_action);
         spinnerService = findViewById(R.id.spinner_service);
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         tp.setOnTimeChangedListener(timeChangedListener);
         tp.setVisibility(View.GONE);
         tp.setIs24HourView(true);
+
     }
 
     private TimePicker.OnTimeChangedListener timeChangedListener =
@@ -62,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
                             .append(":")
                             .append(minute < 10 ? "0" + minute : minute);
                     textView.setText(formattedTime);
-                    res = hourOfDay + minute;
+                    minutes = minute;
+                    hours = hourOfDay;
 
                 }
             };
@@ -76,23 +82,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkActions(View view) {
-        JobScheduler jobScheduler =
-                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(new JobInfo.Builder(1,
-                new ComponentName(this, TimeChecker.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .build());
-        /*serviceIntent = new Intent(this, TimeChecker.class);
-        serviceIntent.putExtra("time", res);
-        serviceIntent.putExtra("service", spinnerService.getSelectedItem().toString());
-        serviceIntent.putExtra("action", spinnerAction.getSelectedItem().toString());
-        startService(serviceIntent);*/
+        AlarmManager alarmMgr;
+        PendingIntent alarmIntent;
 
+        Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
+        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, TimeChecker.class);
+        intent.putExtra("service", spinnerService.getSelectedItem().toString());
+        intent.putExtra("action", spinnerAction.getSelectedItem().toString());
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                alarmIntent);
     }
 
     @Override
     protected void onDestroy() {
-        stopService(serviceIntent);
         super.onDestroy();
 
     }

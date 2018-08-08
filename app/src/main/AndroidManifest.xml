@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <application
         android:allowBackup="true"
@@ -34,29 +36,13 @@
             </intent-filter>
         </activity>
 
-        <service
+        <receiver
             android:name=".TimeChecker"
             android:enabled="true"
             android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE"
             android:stopWithTask="false"/>
 
 
-        <receiver
-
-            android:name=".ServiceReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
-
-        <intent-filter>
-                <action android:name=".RestartShutDownService"/>
-            </intent-filter>
-
-
-
-        </receiver>
     </application>
 
 </manifest>
