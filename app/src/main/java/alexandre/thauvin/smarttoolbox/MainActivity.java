@@ -3,17 +3,12 @@ package alexandre.thauvin.smarttoolbox;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -82,23 +77,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkActions(View view) {
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
 
         Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
-        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, TimeChecker.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, Tasker.class);
         intent.putExtra("service", spinnerService.getSelectedItem().toString());
         intent.putExtra("action", spinnerAction.getSelectedItem().toString());
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, spinnerService.getSelectedItemPosition(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hours);
-        calendar.set(Calendar.MINUTE, minutes);
+        Calendar instance = Calendar.getInstance();
+        instance.setTimeInMillis(System.currentTimeMillis());
+        instance.set(Calendar.HOUR_OF_DAY, hours);
+        instance.set(Calendar.MINUTE, minutes);
 
-        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                alarmIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, instance.getTimeInMillis(),
+                pendingIntent);
+
     }
 
     @Override

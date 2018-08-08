@@ -37,7 +37,7 @@
         </activity>
 
         <receiver
-            android:name=".TimeChecker"
+            android:name=".Tasker"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false"/>
