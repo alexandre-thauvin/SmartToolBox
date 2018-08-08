@@ -1,6 +1,8 @@
 package alexandre.thauvin.smarttoolbox;
 
 import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -14,18 +16,38 @@ import android.os.Process;
 import android.widget.Toast;
 import java.util.Calendar;
 
-public class TimeChecker extends Service {
+public class TimeChecker extends JobService {
 
-    Looper mServiceLooper;
-    private ServiceHandler mServiceHandler;
+    //Looper mServiceLooper;
+    //private ServiceHandler mServiceHandler;
     private int time = 0;
     private String action;
     private String service;
 
-    private final class ServiceHandler extends Handler {
+    @Override
+    public boolean onStartJob(final JobParameters params) {
+        int currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+        while (currentTime != (10 + 47)) {
+            currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
+        }
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(false);
+        return true;
+    }
+
+    @Override
+    public boolean onStopJob(final JobParameters params) {
+        /*if (mDownloadArtworkTask != null) {
+            mDownloadArtworkTask.cancel(true);
+        }*/
+        return true;
+    }
+
+   /* private final class ServiceHandler extends Handler {
         private ServiceHandler(Looper looper) {
             super(looper);
         }
+
 
         @Override
         public void handleMessage(Message msg) {
@@ -95,7 +117,7 @@ public class TimeChecker extends Service {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
         Intent broadcastIntent = new Intent(".RestartShutDownService");
         sendBroadcast(broadcastIntent);
-    }
+    }*/
 }
 
 

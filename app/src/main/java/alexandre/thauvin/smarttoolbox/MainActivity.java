@@ -1,6 +1,10 @@
 package alexandre.thauvin.smarttoolbox;
 
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import java.sql.Time;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,11 +76,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkActions(View view) {
-        serviceIntent = new Intent(this, TimeChecker.class);
+        JobScheduler jobScheduler =
+                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(new JobInfo.Builder(1,
+                new ComponentName(this, TimeChecker.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build());
+        /*serviceIntent = new Intent(this, TimeChecker.class);
         serviceIntent.putExtra("time", res);
         serviceIntent.putExtra("service", spinnerService.getSelectedItem().toString());
         serviceIntent.putExtra("action", spinnerAction.getSelectedItem().toString());
-        startService(serviceIntent);
+        startService(serviceIntent);*/
 
     }
 
