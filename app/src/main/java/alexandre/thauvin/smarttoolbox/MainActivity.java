@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private int hours;
     private int minutes;
     private TimePicker tp;
+    private List<String> tasks;
+    private SharedPreferences sharedPreferences;
 
 
 
@@ -30,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("tasks", MODE_PRIVATE);
+        if (sharedPreferences.getStringSet("tasks", null) != null) {
+            tasks = new ArrayList<>(sharedPreferences.getStringSet("tasks", null));
+        }
         spinnerAction = findViewById(R.id.spinner_action);
         spinnerService = findViewById(R.id.spinner_service);
 
@@ -79,10 +88,12 @@ public class MainActivity extends AppCompatActivity {
     public void checkActions(View view) {
 
         Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
+        String service = spinnerService.getSelectedItem().toString();
+        String action = spinnerAction.getSelectedItem().toString();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, Tasker.class);
-        intent.putExtra("service", spinnerService.getSelectedItem().toString());
-        intent.putExtra("action", spinnerAction.getSelectedItem().toString());
+        intent.putExtra("service", service);
+        intent.putExtra("action", action);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, spinnerService.getSelectedItemPosition(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar instance = Calendar.getInstance();
@@ -92,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, instance.getTimeInMillis(),
                 pendingIntent);
+        updateListOfTasks(action + "/" + service);
 
     }
 
@@ -99,5 +111,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    private void updateListOfTasks(String s){
+        Set<String> set = new HashSet<>(tasks);
+        sharedPreferences.edit().putStringSet("tasks", set).apply();
     }
 }
