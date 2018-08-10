@@ -5,6 +5,10 @@
     <!-- MainActivity -->
     <string name="dashboard">DashBoard</string>
 
+    <!-- MainActivity -->
+    <string name="home">HOME</string>
+    <string name="list">TASKS LIST</string>
+
     <!-- Name of displayed Services -->
     <string name="bluetooth">Bluetooth</string>
 

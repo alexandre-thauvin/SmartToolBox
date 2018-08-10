@@ -33,6 +33,11 @@ public class HomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction();
+    }
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -48,13 +53,18 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
         activity = (MainActivity) getActivity();
         tasks = activity.getTmp();
 
-        spinnerAction = getActivity().findViewById(R.id.spinner_action);
-        spinnerService = getActivity().findViewById(R.id.spinner_service);
+        spinnerAction = v.findViewById(R.id.spinner_action);
+        spinnerService = v.findViewById(R.id.spinner_service);
 
         ArrayAdapter<CharSequence> actionAdapter = ArrayAdapter.createFromResource(activity,
                 R.array.basic_action, android.R.layout.simple_spinner_item);
@@ -66,17 +76,10 @@ public class HomeFragment extends Fragment {
         serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerService.setAdapter(serviceAdapter);
 
-        tp = getActivity().findViewById(R.id.timePicker);
+        tp = v.findViewById(R.id.timePicker);
         tp.setOnTimeChangedListener(timeChangedListener);
-        tp.setVisibility(View.GONE);
         tp.setIs24HourView(true);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return v;
     }
 
     private TimePicker.OnTimeChangedListener timeChangedListener =
@@ -119,9 +122,9 @@ public class HomeFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed() {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction();
         }
     }
 
@@ -142,8 +145,5 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
