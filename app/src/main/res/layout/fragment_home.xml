@@ -92,12 +92,12 @@
 
 
         <Button
+            android:id="@+id/done"
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/colorPrimaryDark"
-            android:onClick="checkActions"
             android:text="@string/done"
             android:textColor="@color/white" />
 

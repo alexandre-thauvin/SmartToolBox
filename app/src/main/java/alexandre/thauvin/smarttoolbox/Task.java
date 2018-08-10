@@ -6,6 +6,10 @@ public class Task {
     private String action;
     private String hour;
 
+    public Task(){
+
+    }
+
     public Task(String service, String action, String hour){
         this.service = service;
         this.action = action;

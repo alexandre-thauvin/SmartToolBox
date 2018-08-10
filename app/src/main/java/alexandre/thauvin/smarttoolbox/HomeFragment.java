@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private int hours;
     private int minutes;
@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         activity = (MainActivity) getActivity();
         tasks = activity.getTmp();
-
+        v.findViewById(R.id.done).setOnClickListener(this);
         spinnerAction = v.findViewById(R.id.spinner_action);
         spinnerService = v.findViewById(R.id.spinner_service);
 
@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
             };
 
 
-    public void checkActions(View view) {
+    public void onClick(View view) {
 
         Toast.makeText(activity, "start", Toast.LENGTH_SHORT).show();
         String service = spinnerService.getSelectedItem().toString();

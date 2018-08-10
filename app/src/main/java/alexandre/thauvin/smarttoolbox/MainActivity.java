@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, ListFragment.OnListFragmentInteractionListener {
     private List<String> tmp;
     private List<Task>   tasks;
     private SharedPreferences sharedPreferences;
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.setDefaultBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        bottomNavigation.setForceTint(true);
         sharedPreferences = getApplicationContext().getSharedPreferences("tmp", MODE_PRIVATE);
         if (sharedPreferences.getStringSet("tmp", null) != null) {
             tmp = new ArrayList<>(sharedPreferences.getStringSet("tmp", null));
@@ -41,6 +42,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             tmp = new ArrayList<>();
         }
         showHomeFragment();
+
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                if (position == 1) {
+                    showListFragment();
+                }
+                else {
+                    showHomeFragment();
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -49,9 +63,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     }
 
-    private void parseTasks(List<String> list)
-    {
+    private void parseTasks(List<String> list) {
 
+        for (String s: list){
+            Task task = new Task();
+            String[] array = s.split("/");
+            task.setAction(array[0]);
+            task.setService(array[1]);
+            task.setService(array[2]);
+            tasks.add(task);
+        }
     }
 
     public List<String> getTmp() {
@@ -67,22 +88,22 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     private void showHomeFragment(){
-        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_layout, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_layout, new HomeFragment()).commit();
 
 
     }
 
     private void showListFragment(){
-        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_layout, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_layout, new ListFragment()).commit();
 
     }
 
     public void onFragmentInteraction(){
+
+    }
+
+    public void onListFragmentInteraction(String item){
 
     }
 
