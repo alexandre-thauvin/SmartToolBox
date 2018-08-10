@@ -3,6 +3,7 @@ package alexandre.thauvin.smarttoolbox;
 
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,13 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-
-
     private List<String> tmp;
     private List<Task>   tasks;
     private SharedPreferences sharedPreferences;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             tmp = new ArrayList<>();
         }
+        getSupportFragmentManager().beginTransaction().add(R.id.main_fragment_layout, new HomeFragment()).commit();
     }
 
     @Override
@@ -61,4 +59,6 @@ public class MainActivity extends AppCompatActivity {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+
 }
