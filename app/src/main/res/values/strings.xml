@@ -5,16 +5,14 @@
     <!-- MainActivity -->
     <string name="dashboard">DashBoard</string>
 
-        <!-- Name of displayed Services -->
-        <string name="bluetooth">Bluetooth</string>
+    <!-- Name of displayed Services -->
+    <string name="bluetooth">Bluetooth</string>
 
-        <string name="done">DONE</string>
-        <string name="service">Service</string>
-        <string name="action">Action</string>
-        <string name="date">Date</string>
-        <string name="hour">Hour</string>
-
-
+    <string name="done">DONE</string>
+    <string name="service">Service</string>
+    <string name="action">Action</string>
+    <string name="date">Date</string>
+    <string name="hour">Hour</string>
 
 
     <string-array name="basic_action">
@@ -27,8 +25,8 @@
         <item>Wifi</item>
     </string-array>
 
-
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
