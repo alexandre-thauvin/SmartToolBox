@@ -64,6 +64,6 @@ public class ListFragment extends Fragment {
     }
 
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(String item);
+        void onListFragmentInteraction(Task item);
     }
 }

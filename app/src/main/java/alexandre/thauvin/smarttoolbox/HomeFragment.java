@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -86,7 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             new TimePicker.OnTimeChangedListener() {
                 @Override
                 public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                    TextView textView = activity.findViewById(R.id.hour_bluetooth);
+                    TextView textView = activity.findViewById(R.id.hour);
                     StringBuilder formattedTime = new StringBuilder().append(hourOfDay)
                             .append(":")
                             .append(minute < 10 ? "0" + minute : minute);

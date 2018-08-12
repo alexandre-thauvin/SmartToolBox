@@ -30,9 +30,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position).getHour();
-        holder.mIdView.setText(mValues.get(position).getAction());
-        holder.mContentView.setText(mValues.get(position).getService());
+        holder.mItem = mValues.get(position);
+        holder.mAction.setText(mValues.get(position).getAction());
+        holder.mService.setText(mValues.get(position).getService());
+        holder.mHour.setText(mValues.get(position).getHour());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,20 +54,23 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public String mItem;
+        public final TextView mAction;
+        public final TextView mService;
+        public final TextView mHour;
+        public Task mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_action);
-            mContentView = (TextView) view.findViewById(R.id.item_service);
+            mHour = view.findViewById(R.id.item_hour);
+            mAction =  view.findViewById(R.id.item_action);
+            mService =  view.findViewById(R.id.item_service);
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mService.getText() + "'";
         }
     }
 }
