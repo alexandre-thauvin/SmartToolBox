@@ -36,11 +36,11 @@ public class ListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        activity = (MainActivity)getActivity();
+        activity = (MainActivity) getActivity();
 
-            RecyclerView recyclerView = view.findViewById(R.id.list);
-            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(activity.getTasks(), mListener));
+        RecyclerView recyclerView = view.findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(activity.getTasks(), mListener));
 
         return view;
     }

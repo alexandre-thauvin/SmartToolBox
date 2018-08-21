@@ -27,21 +27,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Spinner spinnerService;
     private Spinner spinnerAction;
     private TimePicker tp;
-    private List<String> tasks;
     private MainActivity activity;
 
     private OnFragmentInteractionListener mListener;
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction();
     }
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -60,7 +56,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         activity = (MainActivity) getActivity();
-        tasks = activity.getTmp();
         v.findViewById(R.id.done).setOnClickListener(this);
         spinnerAction = v.findViewById(R.id.spinner_action);
         spinnerService = v.findViewById(R.id.spinner_service);
@@ -108,19 +103,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         intent.putExtra("action", action);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, spinnerService.getSelectedItemPosition(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String time = Integer.toString(hours + minutes);
+
         Calendar instance = Calendar.getInstance();
         instance.setTimeInMillis(System.currentTimeMillis());
         instance.set(Calendar.HOUR_OF_DAY, hours);
         instance.set(Calendar.MINUTE, minutes);
+        String time = instance.getTime().toString();
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, instance.getTimeInMillis(),
                 pendingIntent);
-        activity.updateListOfTasks(action + "/" + service + "/" + time);
+        activity.addTask(action + "/" + service + "/" + time);
+        activity.updateListPreferences();
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed() {
         if (mListener != null) {
             mListener.onFragmentInteraction();

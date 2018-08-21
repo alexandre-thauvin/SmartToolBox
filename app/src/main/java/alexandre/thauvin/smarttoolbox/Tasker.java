@@ -8,8 +8,6 @@ import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
 public class Tasker extends BroadcastReceiver {
-
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
